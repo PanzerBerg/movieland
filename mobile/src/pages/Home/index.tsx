@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import Movies from '../Movies'
+import MoviesPage from '../Movies'
 import Overview from '../Overview'
 
 const Home = () => {
@@ -19,7 +19,7 @@ const Home = () => {
                 }
             }}
         >
-            <Tab.Screen name="Movies" component={Movies} />
+            <Tab.Screen name="MoviesPage" component={MoviesPage} />
         </Tab.Navigator>
     )
 }

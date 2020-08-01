@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
@@ -6,7 +6,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import styles from './styles'
 
 const Overview = () => {
-
     const Tab = createMaterialTopTabNavigator()
 
     const Sinopse = () => {
@@ -44,6 +43,7 @@ const Overview = () => {
     return (
         <View style={{ flex: 1 }}>
             <Image style={styles.backgroundImage} source={require('../../assets/Joker_(2019).jpg')} blurRadius={2} />
+            {}
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row' }}>
                     <Image style={styles.image} source={require('../../assets/Joker_(2019).jpg')} />

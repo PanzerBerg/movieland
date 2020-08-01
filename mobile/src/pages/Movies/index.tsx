@@ -1,51 +1,102 @@
-import React from 'react'
-import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
-const Movies = () => {
-    
+import { api, Movies } from '../../services/api'
+
+const colorGrabber = require('react-native').NativeModules.colorGrabber
+
+interface Genres{
+    genres:[
+        GenresData
+    ]
+}
+
+interface GenresData{
+    id: number,
+    name: string
+}
+
+interface Results {
+    results: [
+        Data
+    ]
+}
+
+interface Data {
+    popularity: number,
+    vote_count: number,
+    video: boolean,
+    poster_path: string,
+    id: number,
+    adult: boolean,
+    backdrop_path: string,
+    original_language: string,
+    original_title: string,
+    genre_ids: [number],
+    title: string,
+    vote_average: number,
+    overview: string,
+    release_date: string
+}
+
+const MoviesPage = () => {
+    const [movieList, setMovieList] = useState<Results>()
+
     const navigation = useNavigation()
 
     function handleOverviewPage() {
         navigation.navigate('Overview');
     }
 
+    useEffect(() => {
+        api.get(Movies.topRatedMovies('pt-br', 1)).then(response => {
+            setMovieList(response.data)
+        })
+    }, [])
+
     return (
         <SafeAreaView style={styles.main}>
             <Text style={styles.header}>Top Movies</Text>
 
-            <View style={{marginTop: 20}}>
-                <View style={styles.card}>
-                    <Text style={styles.movieTitle}>Joker</Text>
-                    <Text style={styles.director}>por Todd Phillips</Text>
-                    <Text style={styles.theme}>Crime | Suspense | Drama</Text>
-                    <View style={styles.reviewBlock}>
-                        <Icon name='thumbs-up' size={24} color='#fff' />
-                        <Text style={styles.review}>8/10</Text>
+            <ScrollView style={{ marginTop: 20 }} showsVerticalScrollIndicator={false}>
+                {movieList?.results.map(result => (
+                    
+                    <View key={result.id} style={{ marginTop: 20 }}>
+                        <View style={[styles.card]}>
+                            <Text style={styles.movieTitle}>{result.title}</Text>
+                            {/* <Text style={styles.director}>por Todd Phillips</Text> */}
+                            <Text style={styles.theme}></Text>
+                            <View style={styles.reviewBlock}>
+                                <Icon name='thumbs-up' size={24} color='#fff' />
+                                <Text style={styles.review}>{result.vote_average}/10</Text>
+                            </View>
+                        </View>
+                        <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage()} >
+                            <Image style={styles.imagePosition} source={{uri: `https://image.tmdb.org/t/p/w200/${result.poster_path}`}} />
+                        </TouchableOpacity>
+                        <View style={styles.buttonGroup}>
+                            <TouchableOpacity style={styles.button}>
+                                <Icon name='bookmark' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button}>
+                                <Icon name='check-circle' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-                <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage()} >
-                    <Image style={styles.imagePosition} source={require('../../assets/Joker_(2019).jpg')} />
-                </TouchableOpacity>
-                <View style={styles.buttonGroup}>
-                    <TouchableOpacity style={styles.button}>
-                        <Icon name='bookmark' size={24} style={{alignSelf: 'center', marginTop: 5}} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
-                        <Icon name='check-circle' size={24} style={{alignSelf: 'center', marginTop: 5}} />
-                    </TouchableOpacity>
-                </View>
-            </View>
+                ))}
+
+            </ScrollView>
         </SafeAreaView>
     )
 }
 
-export default Movies;
+export default MoviesPage;
 
 const styles = StyleSheet.create({
     main: {
-        flex:1,
+        flex: 1,
         alignItems: 'center',
         backgroundColor: '#191919'
     },
@@ -69,17 +120,17 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     card: {
-        backgroundColor: '#6B5025',
         width: 290,
-        height: 150,
         marginTop: 50,
-        borderRadius: 10
+        borderRadius: 10,
+        minHeight: 150
     },
     movieTitle: {
+        width: 150,
         color: '#fff',
         marginTop: 10,
         marginLeft: 10,
-        fontSize: 24,
+        fontSize: 18,
         fontFamily: 'Ubuntu_700Bold'
     },
     director: {
@@ -95,9 +146,10 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     reviewBlock: {
-        marginTop: 25,
+        marginTop: 10,
         marginLeft: 10,
-        flexDirection: "row"
+        flexDirection: "row",
+        marginBottom: 10
     },
     review: {
         marginLeft: 5,
@@ -114,7 +166,7 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     buttonGroup: {
-        flexDirection:'row',
+        flexDirection: 'row',
         position: 'absolute',
         left: Dimensions.get('window').width / 2.7,
         top: 150
