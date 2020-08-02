@@ -13,6 +13,10 @@ export const api = Axios.create({
     baseURL: url
 })
 
+export const serverApi = Axios.create({
+    baseURL: 'http://192.168.0.105:3333'
+})
+
 export class Movies{
     static genres(language:string) {
         const url = `genre/movie/list${key}&language=${language}`

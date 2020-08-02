@@ -1,22 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
-import { api, Movies } from '../../services/api'
-
-const colorGrabber = require('react-native').NativeModules.colorGrabber
-
-interface Genres{
-    genres:[
-        GenresData
-    ]
-}
-
-interface GenresData{
-    id: number,
-    name: string
-}
+import { api, Movies, serverApi } from '../../services/api'
 
 interface Results {
     results: [
@@ -41,8 +28,17 @@ interface Data {
     release_date: string
 }
 
+interface Colors {
+    palette: string[],
+    url: string
+}
+
 const MoviesPage = () => {
+    let i = 0
     const [movieList, setMovieList] = useState<Results>()
+    const [postersList, setPostersList] = useState<string[]>()
+    const [posterColors, setPosterColors] = useState<Colors[]>()
+    const [isBusy, setIsBusy] = useState(true);
 
     const navigation = useNavigation()
 
@@ -56,36 +52,73 @@ const MoviesPage = () => {
         })
     }, [])
 
+    useEffect(() => {
+        if (movieList != undefined && movieList.results.length > 0) {
+            let posters = new Array()
+            movieList?.results.map(movie => {
+                posters.push(movie.poster_path);
+            })
+            setPostersList(posters)
+        }
+    }, [movieList])
+
+    useEffect(() => {
+        if (postersList != undefined && postersList.length != 0) {
+            //const postersJson = { 'poster_path': postersList }
+            serverApi.post('colors', { body: postersList }).then(response => {
+                setPosterColors(response.data)
+                setIsBusy(false)
+            })
+        }
+    }, [postersList])
+
     return (
         <SafeAreaView style={styles.main}>
             <Text style={styles.header}>Top Movies</Text>
 
             <ScrollView style={{ marginTop: 20 }} showsVerticalScrollIndicator={false}>
-                {movieList?.results.map(result => (
-                    
-                    <View key={result.id} style={{ marginTop: 20 }}>
-                        <View style={[styles.card]}>
-                            <Text style={styles.movieTitle}>{result.title}</Text>
-                            {/* <Text style={styles.director}>por Todd Phillips</Text> */}
-                            <Text style={styles.theme}></Text>
-                            <View style={styles.reviewBlock}>
-                                <Icon name='thumbs-up' size={24} color='#fff' />
-                                <Text style={styles.review}>{result.vote_average}/10</Text>
-                            </View>
-                        </View>
-                        <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage()} >
-                            <Image style={styles.imagePosition} source={{uri: `https://image.tmdb.org/t/p/w200/${result.poster_path}`}} />
-                        </TouchableOpacity>
-                        <View style={styles.buttonGroup}>
-                            <TouchableOpacity style={styles.button}>
-                                <Icon name='bookmark' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.button}>
-                                <Icon name='check-circle' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
-                            </TouchableOpacity>
-                        </View>
+                {isBusy ? (
+                    <View>
+                        <ActivityIndicator />
                     </View>
-                ))}
+                ) : (
+                        <View>
+                            {movieList && posterColors && movieList?.results.map(result => {
+                                let color
+                                if (posterColors != undefined) {
+                                    color = posterColors[i].palette[2]
+                                }
+                                i++
+
+                                return (
+                                    <View key={result.id} style={{ marginTop: 20 }}>
+                                        <View style={[styles.card, { backgroundColor: color }]}>
+                                            <Text style={styles.movieTitle}>{result.title}</Text>
+                                            {/* <Text style={styles.director}>por Todd Phillips</Text> */}
+                                            <Text style={styles.theme}></Text>
+                                            <View style={styles.reviewBlock}>
+                                                <Icon name='thumbs-up' size={24} color='#fff' />
+                                                <Text style={styles.review}>{result.vote_average}/10</Text>
+                                            </View>
+                                        </View>
+                                        <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage()} >
+                                            <Image style={styles.imagePosition} source={{ uri: `https://image.tmdb.org/t/p/w200/${result.poster_path}` }} />
+                                        </TouchableOpacity>
+                                        <View style={styles.buttonGroup}>
+                                            <TouchableOpacity style={styles.button}>
+                                                <Icon name='bookmark' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.button}>
+                                                <Icon name='check-circle' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                )
+                            })}
+                        </View>
+                    )
+
+                }
 
             </ScrollView>
         </SafeAreaView>

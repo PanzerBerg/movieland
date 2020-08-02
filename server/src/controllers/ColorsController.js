@@ -3,11 +3,12 @@ const { getPaletteFromURL } = require('color-thief-node')
 
 class ColorsController {
     async paletteColor(Request, Response) {
-        const urls = Request.body
+        const { body } = Request.body
         let colors = new Array()
 
-        for (let index = 0; index < urls.length; index++) {
-            const imgUrl = `https://image.tmdb.org/t/p/original${urls[index].poster_path}`
+        for (let index = 0; index < body.length; index++) {
+            const imgUrl = `https://image.tmdb.org/t/p/original${body[index]}`
+            const url = body[index]
 
             let palette = await getPaletteFromURL(imgUrl)
 
@@ -18,10 +19,10 @@ class ColorsController {
                 
                 palette[i] = `#${r}${g}${b}`
             }
-            colors.push(palette)
+            colors.push({url, palette})
         }
 
-        return Response.json({ colors })
+        return Response.json(colors)
 
         function componentToHex(c) {
             var hex = c.toString(16);
