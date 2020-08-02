@@ -33,7 +33,7 @@ interface Colors {
     url: string
 }
 
-const MoviesPage = () => {
+const SeriesPage = () => {
     let i = 0
     const [movieList, setMovieList] = useState<Results>()
     const [postersList, setPostersList] = useState<string[]>()
@@ -46,31 +46,31 @@ const MoviesPage = () => {
         navigation.navigate('Overview');
     }
 
-    useEffect(() => {
-        api.get(Movies.topRatedMovies('pt-br', 1)).then(response => {
-            setMovieList(response.data)
-        })
-    }, [])
+    // useEffect(() => {
+    //     api.get(Movies.topRatedMovies('pt-br', 1)).then(response => {
+    //         setMovieList(response.data)
+    //     })
+    // }, [])
 
-    useEffect(() => {
-        if (movieList != undefined && movieList.results.length > 0) {
-            let posters = new Array()
-            movieList?.results.map(movie => {
-                posters.push(movie.poster_path);
-            })
-            setPostersList(posters)
-        }
-    }, [movieList])
+    // useEffect(() => {
+    //     if (movieList != undefined && movieList.results.length > 0) {
+    //         let posters = new Array()
+    //         movieList?.results.map(movie => {
+    //             posters.push(movie.poster_path);
+    //         })
+    //         setPostersList(posters)
+    //     }
+    // }, [movieList])
 
-    useEffect(() => {
-        if (postersList != undefined && postersList.length != 0) {
-            //const postersJson = { 'poster_path': postersList }
-            serverApi.post('colors', { body: postersList }).then(response => {
-                setPosterColors(response.data)
-                setIsBusy(false)
-            })
-        }
-    }, [postersList])
+    // useEffect(() => {
+    //     if (postersList != undefined && postersList.length != 0) {
+    //         //const postersJson = { 'poster_path': postersList }
+    //         serverApi.post('colors', { body: postersList }).then(response => {
+    //             setPosterColors(response.data)
+    //             setIsBusy(false)
+    //         })
+    //     }
+    // }, [postersList])
 
     function getDate(date:string) {
         let formatedDate
@@ -86,9 +86,9 @@ const MoviesPage = () => {
 
     return (
         <SafeAreaView style={styles.main}>
-            <Text style={styles.header}>Top Movies</Text>
+            <Text style={styles.header}>Top TV Series</Text>
 
-            <ScrollView style={{ marginTop: 20 }} showsVerticalScrollIndicator={false} >
+            {/* <ScrollView style={{ marginTop: 20 }} showsVerticalScrollIndicator={false} >
                 {isBusy ? (
                     <View>
                         <ActivityIndicator />
@@ -107,7 +107,7 @@ const MoviesPage = () => {
                                         <View style={[styles.card, { backgroundColor: color }]}>
                                             <Text style={styles.movieTitle}>{result.title}</Text>
                                             <Text style={styles.date}>de {getDate(result.release_date)}</Text>
-                                            {/* <Text style={styles.theme}></Text> */}
+                                            {/* <Text style={styles.theme}></Text> 
                                             <View style={styles.reviewBlock}>
                                                 <Icon name='thumbs-up' size={24} color='#fff' />
                                                 <Text style={styles.review}>{result.vote_average}/10</Text>
@@ -132,12 +132,12 @@ const MoviesPage = () => {
 
                 }
 
-            </ScrollView>
+            </ScrollView> */}
         </SafeAreaView>
     )
 }
 
-export default MoviesPage;
+export default SeriesPage;
 
 const styles = StyleSheet.create({
     main: {
