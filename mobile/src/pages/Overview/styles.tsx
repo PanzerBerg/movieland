@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height / 3,
     },
     container: {
-        backgroundColor: '#6B5025',
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
         position: 'relative',
@@ -22,10 +21,9 @@ const styles = StyleSheet.create({
         marginLeft: 25
     },
     title: {
-        color: '#fff',
         marginTop: 15,
         marginLeft: 20,
-        fontSize: 36,
+        fontSize: 25,
         fontFamily: 'Ubuntu_700Bold'
     },
     director: {
@@ -43,7 +41,6 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginTop: 2,
         fontSize: 30,
-        color: '#fff',
         fontFamily: 'Ubuntu_700Bold'
     },
     button: {
@@ -62,10 +59,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu_700Bold',
         fontSize: 10,
         marginTop: 5
-    },
-    tabPage: {
-        flex: 1,
-        backgroundColor: '#6B5025'
     }
 })
 

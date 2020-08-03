@@ -36,9 +36,12 @@ const SeriesPage = () => {
         }
     }, [postersList])
 
-
-    function handleOverviewPage() {
-        navigation.navigate('Overview');
+    function handleOverviewPage(item:Data, colors:Colors) {
+        const itemParam = {
+            id: item.id,
+            type: 'tv'
+        }
+        navigation.navigate('Overview', {itemParam, colors});
     }
 
     function getDate(date: string) {
@@ -145,7 +148,7 @@ const SeriesPage = () => {
                         <Text style={[styles.review, {color: fontColor}]}>{item.vote_average}/10</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage()} >
+                <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage(item, posterColors[index])} >
                     <Image style={styles.imagePosition} source={{ uri: `https://image.tmdb.org/t/p/w200/${item.poster_path}` }} />
                 </TouchableOpacity>
                 <View style={styles.buttonGroup}>
