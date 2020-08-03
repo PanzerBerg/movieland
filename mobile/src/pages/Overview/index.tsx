@@ -1,17 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
+import { useRoute } from '@react-navigation/native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+
+import { api, Movies, Series } from '../../services/api'
+
+import { MovieData, Params, SerieData } from './interfaces'
 
 import styles from './styles'
 
 const Overview = () => {
-    const Tab = createMaterialTopTabNavigator()
+    const [movieData, setMovieData] = useState<MovieData>();
+    const [serieData, setSerieData] = useState<SerieData>();
 
-    const Sinopse = () => {
+    const Tab = createMaterialTopTabNavigator()
+    const route = useRoute()
+    const params = route.params as Params
+
+    useEffect(() => {
+        if(params.itemParam.type == 'movie'){
+            api.get(Movies.getById('pt-BR', params.itemParam.id)).then(response => {
+                setMovieData(response.data)
+            })
+        } else {
+            api.get(Series.getById('pt-BR', params.itemParam.id)).then(response => {
+                setSerieData(response.data)
+            })
+        }
+    }, [params])
+
+    const Sobre = () => {
         return (
             <ScrollView style={styles.tabPage}>
-                <Text>Sinopse</Text>
+                <Text>Sobre</Text>
             </ScrollView>
         )
     }
@@ -77,7 +99,6 @@ const Overview = () => {
                             },
                             style: {
                                 backgroundColor: 'transparent',
-                                height: 40
                             },
                             indicatorStyle: {
                                 height: 2,
@@ -89,7 +110,7 @@ const Overview = () => {
                             backgroundColor: '#000000'
                         }}
                     >
-                        <Tab.Screen name='Sinopse' component={Sinopse} />
+                        <Tab.Screen name='Sobre' component={Sobre} />
                         <Tab.Screen name='Elenco' component={Elenco} />
                         <Tab.Screen name='Analises' component={Analises} />
                         <Tab.Screen name='Premios' component={Premios} />

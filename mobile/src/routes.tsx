@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './pages/Home';
 import Overview from './pages/Overview';
 
-const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator()
 
 const Routes = () => {

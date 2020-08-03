@@ -1,36 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, FlatList } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Text, View, SafeAreaView, Image, Dimensions, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
 import { api, Series, serverApi } from '../../services/api'
 
-interface Results {
-    results: [
-        Data
-    ]
-}
-
-interface Data {
-    original_name: string,
-    genre_ids: [number],
-    name: string,
-    popularity: number,
-    origin_country: string[],
-    vote_count: number,
-    first_air_date: string,
-    backdrop_path: string,
-    original_language: string,
-    id: number,
-    vote_average: number,
-    overview: string,
-    poster_path: string
-}
-
-interface Colors {
-    palette: string[],
-    url: string
-}
+import styles from './styles'
+import { Colors, Data, Results } from './interfaces'
 
 const SeriesPage = () => {
     const [seriePage, setSeriePage] = useState<Data[]>()
@@ -212,80 +188,3 @@ const SeriesPage = () => {
 }
 
 export default SeriesPage;
-
-const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#191919'
-    },
-    header: {
-        color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold',
-        fontFamily: 'Ubuntu_700Bold',
-        marginTop: 20
-    },
-    image: {
-        width: 100,
-        height: 140,
-        position: 'absolute',
-        left: Dimensions.get('window').width / 2.3,
-        borderRadius: 10
-    },
-    imagePosition: {
-        width: 100,
-        height: 140,
-        borderRadius: 10
-    },
-    card: {
-        width: 290,
-        marginTop: 50,
-        borderRadius: 10,
-        minHeight: 150
-    },
-    movieTitle: {
-        width: 150,
-        marginTop: 10,
-        marginLeft: 10,
-        fontSize: 18,
-        fontFamily: 'Ubuntu_700Bold'
-    },
-    date: {
-        fontSize: 14,
-        marginLeft: 20,
-        marginTop: 10,
-        fontFamily: 'Roboto_400Regular'
-    },
-    theme: {
-        color: '#fff',
-        fontSize: 13,
-        marginTop: 10,
-        marginLeft: 10
-    },
-    reviewBlock: {
-        marginTop: 20,
-        marginLeft: 10,
-        flexDirection: "row",
-        marginBottom: 10
-    },
-    review: {
-        marginLeft: 5,
-        marginTop: 2,
-        fontSize: 20,
-        fontFamily: 'Ubuntu_700Bold'
-    },
-    button: {
-        width: 50,
-        height: 35,
-        backgroundColor: '#fff',
-        marginLeft: 15,
-        borderRadius: 10
-    },
-    buttonGroup: {
-        flexDirection: 'row',
-        position: 'absolute',
-        left: Dimensions.get('window').width / 2.7,
-        top: 150
-    }
-});

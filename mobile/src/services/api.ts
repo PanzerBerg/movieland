@@ -43,11 +43,21 @@ export class Movies{
         const url = `movie/${movieOptions.top_rated}${key}&language=${language}&region=br&page=${page}`
         return url
     }
+
+    static getById(language:string, id:number) {
+        const url = `movie/${id}${key}&language=${language}`
+        return url
+    }
 }
 
 export class Series {
     static topRatedSeries(language:string, page:number) {
         const url = `tv/${seriesOptions.top_rated}${key}&language=${language}&page=${page}`
+        return url
+    }
+
+    static getById(language:string, id:number) {
+        const url = `tv/${id}${key}&language=${language}`
         return url
     }
 }

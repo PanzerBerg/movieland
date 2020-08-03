@@ -1,37 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, NativeSyntheticEvent, NativeScrollEvent, FlatList } from 'react-native'
+import { Text, View, SafeAreaView, Image, Dimensions, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
 import { api, Movies, serverApi } from '../../services/api'
 
-interface Results {
-    results: [
-        Data
-    ]
-}
-
-interface Data {
-    popularity: number,
-    vote_count: number,
-    video: boolean,
-    poster_path: string,
-    id: number,
-    adult: boolean,
-    backdrop_path: string,
-    original_language: string,
-    original_title: string,
-    genre_ids: [number],
-    title: string,
-    vote_average: number,
-    overview: string,
-    release_date: string
-}
-
-interface Colors {
-    palette: string[],
-    url: string
-}
+import { Colors, Data, Results } from './interfaces'
+import styles from './styles'
 
 const MoviesPage = () => {
     const [moviesPage, setMoviesPage] = useState<Data[]>()
@@ -61,8 +36,12 @@ const MoviesPage = () => {
         }
     }, [postersList])
 
-    function handleOverviewPage() {
-        navigation.navigate('Overview');
+    function handleOverviewPage(item:Data, colors:Colors) {
+        const itemParam = {
+            id: item.id,
+            type: 'movie'
+        }
+        navigation.navigate('Overview', {itemParam, colors});
     }
 
     function getDate(date: string) {
@@ -86,7 +65,7 @@ const MoviesPage = () => {
 
         const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-        return (luma > 210)
+        return (luma > 200)
     }
 
     function loadItems() {
@@ -154,13 +133,12 @@ const MoviesPage = () => {
                 <View style={[styles.card, { backgroundColor: color }]}>
                     <Text style={[styles.movieTitle, { color: fontColor }]}>{item.title}</Text>
                     <Text style={[styles.date, { color: fontColor }]}>de {getDate(item.release_date)}</Text>
-                    {/* <Text style={styles.theme}></Text> */}
                     <View style={styles.reviewBlock}>
                         <Icon name='thumbs-up' size={24} color={fontColor} />
                         <Text style={[styles.review, { color: fontColor }]}>{item.vote_average}/10</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage()} >
+                <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage(item, posterColors[index])} >
                     <Image style={styles.imagePosition} source={{ uri: `https://image.tmdb.org/t/p/w200/${item.poster_path}` }} />
                 </TouchableOpacity>
                 <View style={styles.buttonGroup}>
@@ -183,7 +161,6 @@ const MoviesPage = () => {
         )
     }
 
-
     return (
         <SafeAreaView style={styles.main}>
             <Text style={styles.header}>Top Movies</Text>
@@ -204,83 +181,3 @@ const MoviesPage = () => {
 }
 
 export default MoviesPage;
-
-const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#191919'
-    },
-    header: {
-        color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold',
-        fontFamily: 'Ubuntu_700Bold',
-        marginTop: 20
-    },
-    image: {
-        width: 100,
-        height: 140,
-        position: 'absolute',
-        left: Dimensions.get('window').width / 2.3,
-        borderRadius: 10
-    },
-    imagePosition: {
-        width: 100,
-        height: 140,
-        borderRadius: 10
-    },
-    card: {
-        width: 290,
-        marginTop: 50,
-        borderRadius: 10,
-        minHeight: 150
-    },
-    movieTitle: {
-        width: 150,
-        color: '#fff',
-        marginTop: 10,
-        marginLeft: 10,
-        fontSize: 18,
-        fontFamily: 'Ubuntu_700Bold'
-    },
-    date: {
-        color: '#fff',
-        fontSize: 14,
-        marginLeft: 20,
-        marginTop: 10,
-        fontFamily: 'Roboto_400Regular'
-    },
-    theme: {
-        color: '#fff',
-        fontSize: 13,
-        marginTop: 10,
-        marginLeft: 10
-    },
-    reviewBlock: {
-        marginTop: 20,
-        marginLeft: 10,
-        flexDirection: "row",
-        marginBottom: 10
-    },
-    review: {
-        marginLeft: 5,
-        marginTop: 2,
-        fontSize: 20,
-        color: '#fff',
-        fontFamily: 'Ubuntu_700Bold'
-    },
-    button: {
-        width: 50,
-        height: 35,
-        backgroundColor: '#fff',
-        marginLeft: 15,
-        borderRadius: 10
-    },
-    buttonGroup: {
-        flexDirection: 'row',
-        position: 'absolute',
-        left: Dimensions.get('window').width / 2.7,
-        top: 150
-    }
-});
