@@ -66,21 +66,29 @@ const Overview = () => {
                         </View>
                     </View>
                 </View>
-                <View style={{flex:1, marginLeft: 20, marginRight: 20, marginTop: 5}}>
-                    <Tab.Navigator initialRouteName='Sinopse' tabBarOptions={{
-                        labelStyle: {
-                            fontFamily: 'Ubuntu_700Bold',
-                            color: '#fff'
-                        },
-                        style: {
-                            backgroundColor: 'transparent',
-                            height: 40
-                        },
-                        indicatorStyle: {
-                            height: 2,
+                <View style={{flex:1, marginLeft: 20, marginRight: 20, marginTop: 5, height: 40}}>
+                    <Tab.Navigator 
+                        initialRouteName='Sinopse' 
+                        tabBarOptions={{
+                            labelStyle: {
+                                fontFamily: 'Ubuntu_700Bold',
+                                color: '#fff',
+                                fontSize: 12
+                            },
+                            style: {
+                                backgroundColor: 'transparent',
+                                height: 40
+                            },
+                            indicatorStyle: {
+                                height: 2,
+                                backgroundColor: '#000000'
+                            }
+                        }}
+                        backBehavior="none"
+                        sceneContainerStyle={{
                             backgroundColor: '#000000'
-                        }
-                    }} >
+                        }}
+                    >
                         <Tab.Screen name='Sinopse' component={Sinopse} />
                         <Tab.Screen name='Elenco' component={Elenco} />
                         <Tab.Screen name='Analises' component={Analises} />

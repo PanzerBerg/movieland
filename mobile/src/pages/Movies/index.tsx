@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
@@ -39,6 +39,9 @@ const MoviesPage = () => {
     const [postersList, setPostersList] = useState<string[]>()
     const [posterColors, setPosterColors] = useState<Colors[]>()
     const [isBusy, setIsBusy] = useState(true);
+    const [page, setPage] = useState(1)
+    const [appPage, setAppPage] = useState(1)
+    const [moreContent, setMoreContent] = useState(false);
 
     const navigation = useNavigation()
 
@@ -51,6 +54,14 @@ const MoviesPage = () => {
             setMovieList(response.data)
         })
     }, [])
+
+    useEffect(() => {
+        if (page != 1) {
+            api.get(Movies.topRatedMovies('pt-br', 1)).then(response => {
+                setMovieList(response.data)
+            })
+        }
+    }, [moreContent])
 
     useEffect(() => {
         if (movieList != undefined && movieList.results.length > 0) {
@@ -72,7 +83,7 @@ const MoviesPage = () => {
         }
     }, [postersList])
 
-    function getDate(date:string) {
+    function getDate(date: string) {
         let formatedDate
         let splitDate = date.split('-');
         let year = splitDate[0]
@@ -84,11 +95,13 @@ const MoviesPage = () => {
         return formatedDate.join('/')
     }
 
+
     return (
         <SafeAreaView style={styles.main}>
             <Text style={styles.header}>Top Movies</Text>
 
             <ScrollView style={{ marginTop: 20 }} showsVerticalScrollIndicator={false} >
+
                 {isBusy ? (
                     <View>
                         <ActivityIndicator />
@@ -101,6 +114,11 @@ const MoviesPage = () => {
                                     color = posterColors[i].palette[2]
                                 }
                                 i++
+                                if (i >= 5 * appPage) {
+                                    setIsBusy(false)
+                                    setAppPage(appPage + 1)
+                                    return
+                                }
 
                                 return (
                                     <View key={result.id} style={{ marginTop: 20 }}>
@@ -129,7 +147,6 @@ const MoviesPage = () => {
                             })}
                         </View>
                     )
-
                 }
 
             </ScrollView>

@@ -6,6 +6,12 @@ const movieOptions = {
     upcoming: 'upcoming'
 }
 
+const seriesOptions = {
+    top_rated: 'top_rated',
+    popular: 'popular',
+    latest: 'latest'
+}
+
 const url = 'https://api.themoviedb.org/3/'
 const key = '?api_key=381ca3b4c0360f778decae3be0bfec69'
 
@@ -35,6 +41,13 @@ export class Movies{
 
     static topRatedMovies(language:string, page:number) {
         const url = `movie/${movieOptions.top_rated}${key}&language=${language}&region=br&page=${page}`
+        return url
+    }
+}
+
+export class Series {
+    static topRatedSeries(language:string, page:number) {
+        const url = `tv/${seriesOptions.top_rated}${key}&language=${language}&page=${page}`
         return url
     }
 }
