@@ -37,7 +37,11 @@ const Overview = () => {
             <View>
                 {params.itemParam.type == 'movie' ? (
                     <View>
-                        <Image style={styles.backgroundImage} source={{ uri: `https://image.tmdb.org/t/p/w400/${movieData?.backdrop_path == null ? movieData?.poster_path : movieData.backdrop_path}` }} blurRadius={1} />
+                        <Image 
+                            style={styles.backgroundImage} 
+                            source={{ uri: `https://image.tmdb.org/t/p/w400/${movieData?.backdrop_path == null ? movieData?.poster_path : movieData.backdrop_path}` }} 
+                            blurRadius={1}
+                        />
 
                         <View style={[styles.container, { backgroundColor: params.colors.palette[1] }]}>
                             <View style={{ flexDirection: 'row' }}>
@@ -62,7 +66,7 @@ const Overview = () => {
                                 </View>
                             </View>
                             <View style={{ flex: 1, marginLeft: 20, marginRight: 20, marginTop: 5, height: 40 }}>
-                                <Tabs isTooWhite={isTooWhite(params.colors.palette[1])} />
+                                <Tabs isTooWhite={isTooWhite(params.colors.palette[1])} params={params} movieParams={movieData} serieParams={serieData} />
                             </View>
                         </View>
                     </View>
@@ -92,9 +96,7 @@ const Overview = () => {
                                         </View>
                                     </View>
                                 </View>
-                                <View style={{ flex: 1, marginLeft: 20, marginRight: 20, marginTop: 5, height: 40 }}>
-                                    <Tabs isTooWhite={isTooWhite(params.colors.palette[1])} />
-                                </View>
+                                <Tabs isTooWhite={isTooWhite(params.colors.palette[1])} params={params} movieParams={movieData} serieParams={serieData} />
                             </View>
 
                         </View>

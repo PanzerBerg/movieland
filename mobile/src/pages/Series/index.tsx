@@ -4,6 +4,7 @@ import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
 import { api, Series, serverApi } from '../../services/api'
+import { getDate } from '../../utils'
 
 import styles from './styles'
 import { Colors, Data, Results } from './interfaces'
@@ -42,18 +43,6 @@ const SeriesPage = () => {
             type: 'tv'
         }
         navigation.navigate('Overview', {itemParam, colors});
-    }
-
-    function getDate(date: string) {
-        let formatedDate
-        const splitDate = date.split('-');
-        const year = splitDate[0]
-        const month = splitDate[1]
-        const day = splitDate[2]
-
-        formatedDate = [day, month, year]
-
-        return formatedDate.join('/')
     }
 
     function isTooWhite(hex:string) {

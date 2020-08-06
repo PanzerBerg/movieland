@@ -4,6 +4,7 @@ import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
 import { api, Movies, serverApi } from '../../services/api'
+import { getDate } from '../../utils'
 
 import { Colors, Data, Results } from './interfaces'
 import styles from './styles'
@@ -42,18 +43,6 @@ const MoviesPage = () => {
             type: 'movie'
         }
         navigation.navigate('Overview', {itemParam, colors});
-    }
-
-    function getDate(date: string) {
-        let formatedDate
-        let splitDate = date.split('-');
-        let year = splitDate[0]
-        let month = splitDate[1]
-        let day = splitDate[2]
-
-        formatedDate = [day, month, year]
-
-        return formatedDate.join('/')
     }
 
     function isTooWhite(hex: string) {
