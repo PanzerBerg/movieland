@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { ScrollView, Text, View, StyleSheet, Dimensions, SafeAreaView, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { ScrollView, Text, View, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native'
 
 import { getDate, getTitleThreshold } from '../../../../utils'
 
 import { MovieData, SerieData, Params } from '../../interfaces'
 
+import styles from './styles'
+
 const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?: MovieData, serieParams?: SerieData, params: Params, isTooWhite: boolean }) => {
-    const [isBusy, setIsBusy] = useState(false);
+    const [] = useState(false);
     let txtColor
     let buttonColor
     isTooWhite ? txtColor = '#000000' : txtColor = '#fff'
@@ -51,7 +53,7 @@ const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?:
 
                     <View style={styles.block}>
                         <Text style={[styles.title, {color: txtColor}]}>Produzido por:</Text>
-                        <Text style={[styles.text, {color: txtColor}]}>{movieParams.production_companies.map(company => `${company.name}`)}</Text>
+                        <Text style={[styles.text, {color: txtColor}]}>{movieParams.production_companies.map(company => `${company.name} ${'\n'}`)}</Text>
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -90,7 +92,7 @@ const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?:
 
                     <View style={styles.block}>
                         <Text style={[styles.title, {color: txtColor}]}>Produzido por:</Text>
-                        <Text style={[styles.text, {color: txtColor}]}>{serieParams.production_companies.map(company => `${company.name} | `)}</Text>
+                        <Text style={[styles.text, {color: txtColor}]}>{serieParams.production_companies.map(company => `${company.name} ${'\n'}`)}</Text>
                     </View>
                     
                     <View style={styles.block}>
@@ -120,36 +122,3 @@ const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?:
 }
 
 export default Sobre;
-
-const styles = StyleSheet.create({
-    safe: {
-        flex: 0.7,
-        padding: 10,
-        paddingBottom: 15
-    },
-    scroll: {
-        flex: 1
-    },
-    title: {
-        fontFamily: 'Ubuntu_700Bold',
-        fontSize: 15,
-        width: 75,
-    },
-    block: {
-        flexDirection: 'row',
-        marginTop: 15
-    },
-    text: {
-        width: Dimensions.get('window').width / 1.5 - 10,
-        marginLeft: 10,
-        fontFamily: 'Roboto_500Medium'
-    },
-    seasons: {
-        flex: 1,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 35,
-        marginLeft: 10
-    }
-})

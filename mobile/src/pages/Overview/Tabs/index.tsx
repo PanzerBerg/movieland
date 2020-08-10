@@ -36,7 +36,7 @@ const Tabs = ({ movieParams, serieParams, isTooWhite, params }: { movieParams?:M
             }}
         >
             <Tab.Screen name='Sobre' children={() => <Sobre movieParams={movieParams} serieParams={serieParams} params={params} isTooWhite={isTooWhite} />} />
-            <Tab.Screen name='Elenco' children={() => <Elenco movieParams={movieParams} serieParams={serieParams} params={params} isTooWhite={isTooWhite} />} />
+            <Tab.Screen name='Elenco' children={() => <Elenco params={params} isTooWhite={isTooWhite} />} />
             {/* <Tab.Screen name='Analises' children={() => <Analises />} />
             <Tab.Screen name='Premios' children={() => <Premios />} /> */}
         </Tab.Navigator>

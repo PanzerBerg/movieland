@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Text, SafeAreaView, View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
+import { Text, SafeAreaView, View, FlatList, TouchableOpacity, Image } from 'react-native'
 
-import { MovieData, SerieData, Cast, Params, Crew } from '../../interfaces'
+import { Cast, Params, Crew } from '../../interfaces'
 
 import { api, Movies, Series } from '../../../../services/api'
-import { ScrollView } from 'react-native-gesture-handler'
 
-const Elenco = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?: MovieData, serieParams?: SerieData, params: Params, isTooWhite: boolean }) => {
+import styles from './styles'
+
+const Elenco = ({ params, isTooWhite }: { params: Params, isTooWhite: boolean }) => {
     const [cast, setCast] = useState<Cast[]>();
     const [director, setDirector] = useState<Crew>()
 
@@ -109,38 +110,3 @@ const Elenco = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?
 }
 
 export default Elenco
-
-const styles = StyleSheet.create({
-    card: {
-        width: '100%',
-        height: 120,
-        backgroundColor: '#000000',
-        borderRadius: 10,
-        marginVertical: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    profileImg: {
-        height: 100,
-        width: 100,
-        marginRight: 10,
-        borderRadius: 10
-    },
-    textBlock: {
-        maxWidth: 140,
-        flexDirection: 'row',
-        marginLeft: 10
-    },
-    title: {
-        fontFamily: 'Roboto_500Medium'
-    },
-    text: {
-        fontFamily: 'Roboto_400Regular'
-    },
-    rowTitle: {
-        fontFamily: 'Ubuntu_700Bold',
-        fontSize: 16,
-        marginVertical: 10
-    }
-})

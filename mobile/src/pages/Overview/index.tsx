@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, Image, Text } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useRoute } from '@react-navigation/native'
+import { RectButton } from 'react-native-gesture-handler'
 
 import { api, Movies, Series } from '../../services/api'
 
@@ -9,7 +10,6 @@ import { MovieData, Params, SerieData } from './interfaces'
 
 import styles from './styles'
 import Tabs from './Tabs'
-import { RectButton } from 'react-native-gesture-handler'
 
 const Overview = () => {
     const [movieData, setMovieData] = useState<MovieData>();
@@ -48,7 +48,6 @@ const Overview = () => {
                                 <Image style={styles.image} source={{ uri: `https://image.tmdb.org/t/p/w400/${movieData?.poster_path}` }} />
                                 <View style={{ flex: 1 }}>
                                     <Text style={[styles.title, { color: textColor }]}>{movieData?.title}</Text>
-                                    {/* <Text style={styles.director}>por </Text> */}
                                     <View style={styles.reviewBlock}>
                                         <Icon name='thumbs-up' size={32} color={textColor} />
                                         <Text style={[styles.review, { color: textColor }]}>{movieData?.vote_average}/10</Text>
@@ -79,7 +78,6 @@ const Overview = () => {
                                     <Image style={styles.image} source={{ uri: `https://image.tmdb.org/t/p/w400/${serieData?.poster_path}` }} />
                                     <View style={{ flex: 1 }}>
                                         <Text style={[styles.title, { color: textColor }]}>{serieData?.name}</Text>
-                                        {/* <Text style={styles.director}>por </Text> */}
                                         <View style={styles.reviewBlock}>
                                             <Icon name='thumbs-up' size={32} color={textColor} />
                                             <Text style={[styles.review, { color: textColor }]}>{serieData?.vote_average}/10</Text>
@@ -96,13 +94,14 @@ const Overview = () => {
                                         </View>
                                     </View>
                                 </View>
-                                <Tabs isTooWhite={isTooWhite(params.colors.palette[1])} params={params} movieParams={movieData} serieParams={serieData} />
+                                <View style={{ flex: 1, marginLeft: 20, marginRight: 20, marginTop: 5, height: 40 }}>
+                                    <Tabs isTooWhite={isTooWhite(params.colors.palette[1])} params={params} movieParams={movieData} serieParams={serieData} />
+                                </View>
                             </View>
 
                         </View>
                     )}
             </View>
-
         </View>
     )
 }
