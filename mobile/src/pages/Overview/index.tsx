@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Image, Text } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useRoute } from '@react-navigation/native'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
 import { api, Movies, Series } from '../../services/api'
 
@@ -10,6 +9,7 @@ import { MovieData, Params, SerieData } from './interfaces'
 
 import styles from './styles'
 import Tabs from './Tabs'
+import { RectButton } from 'react-native-gesture-handler'
 
 const Overview = () => {
     const [movieData, setMovieData] = useState<MovieData>();
@@ -54,14 +54,14 @@ const Overview = () => {
                                         <Text style={[styles.review, { color: textColor }]}>{movieData?.vote_average}/10</Text>
                                     </View>
                                     <View style={styles.buttonGroup}>
-                                        <TouchableOpacity style={styles.button}>
+                                        <RectButton style={styles.button}>
                                             <Icon name='bookmark' size={24} style={{ marginTop: 5, marginLeft: 5 }} />
                                             <Text style={styles.buttonText}>Assistir {'\n'}mais tarde</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.button}>
+                                        </RectButton>
+                                        <RectButton style={styles.button}>
                                             <Icon name='check-circle' size={24} style={{ marginTop: 5, marginLeft: 5 }} />
                                             <Text style={styles.buttonText}>Marcar como assistido</Text>
-                                        </TouchableOpacity>
+                                        </RectButton>
                                     </View>
                                 </View>
                             </View>
@@ -85,14 +85,14 @@ const Overview = () => {
                                             <Text style={[styles.review, { color: textColor }]}>{serieData?.vote_average}/10</Text>
                                         </View>
                                         <View style={styles.buttonGroup}>
-                                            <TouchableOpacity style={styles.button}>
+                                            <RectButton style={styles.button}>
                                                 <Icon name='bookmark' size={24} style={{ marginTop: 5, marginLeft: 5 }} />
                                                 <Text style={styles.buttonText}>Assistir {'\n'}mais tarde</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={styles.button}>
+                                            </RectButton>
+                                            <RectButton style={styles.button}>
                                                 <Icon name='check-circle' size={24} style={{ marginTop: 5, marginLeft: 5 }} />
                                                 <Text style={styles.buttonText}>Marcar como assistido</Text>
-                                            </TouchableOpacity>
+                                            </RectButton>
                                         </View>
                                     </View>
                                 </View>

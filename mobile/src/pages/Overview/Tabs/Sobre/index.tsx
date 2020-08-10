@@ -22,7 +22,7 @@ const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?:
 
     if (params.itemParam.type == 'movie' && movieParams != undefined) {
         return (
-            <SafeAreaView style={[styles.safe, {height: getTitleThreshold(movieParams.title.length)}]}>
+            <SafeAreaView style={[styles.safe]}>
                 <ScrollView style={styles.scroll}>
                     <View style={styles.block}>
                         <Text style={[styles.title, {color: txtColor}]}>Sinópse: </Text>
@@ -105,7 +105,7 @@ const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?:
 
                     <View style={styles.block}>
                         <Text style={[styles.title, {color: txtColor}]}>Temporadas:</Text>
-                        <TouchableOpacity style={[styles.seasons, {backgroundColor: buttonColor}]}> 
+                        <TouchableOpacity activeOpacity={0.7} style={[styles.seasons, {backgroundColor: buttonColor}]}> 
                             <Text style={[styles.text, {color: txtColor}]}>Ver todas as {serieParams.seasons.length} temporadas</Text>
                         </TouchableOpacity>
                     </View>
@@ -123,6 +123,7 @@ export default Sobre;
 
 const styles = StyleSheet.create({
     safe: {
+        flex: 0.7,
         padding: 10,
         paddingBottom: 15
     },

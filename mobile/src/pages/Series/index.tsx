@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Text, View, SafeAreaView, Image, Dimensions, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { RectButton } from 'react-native-gesture-handler'
 
 import { api, Series, serverApi } from '../../services/api'
 import { getDate } from '../../utils'
@@ -141,12 +142,12 @@ const SeriesPage = () => {
                     <Image style={styles.imagePosition} source={{ uri: `https://image.tmdb.org/t/p/w200/${item.poster_path}` }} />
                 </TouchableOpacity>
                 <View style={styles.buttonGroup}>
-                    <TouchableOpacity style={styles.button}>
+                    <RectButton style={styles.button}>
                         <Icon name='bookmark' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    </RectButton>
+                    <RectButton style={styles.button}>
                         <Icon name='check-circle' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
-                    </TouchableOpacity>
+                    </RectButton>
                 </View>
             </View>
         )

@@ -48,6 +48,11 @@ export class Movies{
         const url = `movie/${id}${key}&language=${language}`
         return url
     }
+
+    static getCast(movieId: number) {
+        const url = `movie/${movieId}/credits${key}`
+        return url
+    }
 }
 
 export class Series {
@@ -58,6 +63,11 @@ export class Series {
 
     static getById(language:string, id:number) {
         const url = `tv/${id}${key}&language=${language}`
+        return url
+    }
+
+    static getCast(serieId: number) {
+        const url = `tv/${serieId}/credits${key}`
         return url
     }
 }

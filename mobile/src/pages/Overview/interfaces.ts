@@ -60,7 +60,7 @@ export interface SerieData {
     last_air_date: string,
     last_episode_to_air: {
         episode_number: number,
-        name:string,
+        name: string,
         season_number: number
     },
     name: string,
@@ -94,4 +94,18 @@ export interface SerieData {
     status: string,
     vote_average: number,
     vote_count: number
+}
+
+export interface Cast {
+    character: string,
+    id: number,
+    name: string,
+    profile_path: string
+}
+
+export interface Crew {
+    id: number,
+    job: string,
+    name: string,
+    profile_path: string
 }
