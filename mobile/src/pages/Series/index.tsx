@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, SafeAreaView, Image, Dimensions, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
-import { Feather as Icon } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
-import { RectButton } from 'react-native-gesture-handler'
+import { Text, View, SafeAreaView, Dimensions, ActivityIndicator, FlatList } from 'react-native'
 
 import { api, Series, serverApi } from '../../services/api'
-import { getDate } from '../../utils'
+import MvTvItem from '../../components/MvTvItem'
 
-import styles from './styles'
 import { Colors, Data, Results } from './interfaces'
+import { isTooWhite } from '../../utils'
+import styles from './styles'
 
 const SeriesPage = () => {
     const [seriePage, setSeriePage] = useState<Data[]>()
@@ -19,7 +17,6 @@ const SeriesPage = () => {
     const [page, setPage] = useState(0);
     const [appPage, setAppPage] = useState(0)
 
-    const navigation = useNavigation()
 
     useEffect(() => {
         loadItems()
@@ -37,27 +34,7 @@ const SeriesPage = () => {
             setIsBusy(false)
         }
     }, [postersList])
-
-    function handleOverviewPage(item:Data, colors:Colors) {
-        const itemParam = {
-            id: item.id,
-            type: 'tv'
-        }
-        navigation.navigate('Overview', {itemParam, colors});
-    }
-
-    function isTooWhite(hex:string) {
-        const c = hex.substring(1)
-        const rgb = parseInt(c, 16);
-        const r = (rgb >> 16) & 0xff;
-        const g = (rgb >> 8 ) & 0xff;
-        const b = (rgb >> 0 ) & 0xff;
-
-        const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-
-        return (luma > 210)
-    }
-
+    
     function loadItems() {
         //console.log('entrou')
         if (isBusy) {
@@ -110,11 +87,9 @@ const SeriesPage = () => {
     }
 
     function renderItem({ item, index }: { item: Data, index: number }) {
-        if(posterColors == undefined){
-            return
-        }
+        if(posterColors == undefined) return
 
-        let color
+        let color = ''
         let fontColor = '#fff'
         if(posterColors != undefined){
             let posters = posterColors[index]
@@ -128,28 +103,17 @@ const SeriesPage = () => {
         }
 
         return (
-            <View style={{ marginTop: 20, alignSelf: 'center' }}>
-                <View style={[styles.card, {backgroundColor: color}]}>
-                    <Text style={[styles.movieTitle, {color: fontColor}]}>{item.name}</Text>
-                    <Text style={[styles.date, {color: fontColor}]}>de {getDate(item.first_air_date)}</Text>
-                    {/* <Text style={styles.theme}></Text> */}
-                    <View style={styles.reviewBlock}>
-                        <Icon name='thumbs-up' size={24} color={fontColor} />
-                        <Text style={[styles.review, {color: fontColor}]}>{item.vote_average}/10</Text>
-                    </View>
-                </View>
-                <TouchableOpacity style={styles.image} onPress={() => handleOverviewPage(item, posterColors[index])} >
-                    <Image style={styles.imagePosition} source={{ uri: `https://image.tmdb.org/t/p/w200/${item.poster_path}` }} />
-                </TouchableOpacity>
-                <View style={styles.buttonGroup}>
-                    <RectButton style={styles.button}>
-                        <Icon name='bookmark' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
-                    </RectButton>
-                    <RectButton style={styles.button}>
-                        <Icon name='check-circle' size={24} style={{ alignSelf: 'center', marginTop: 5 }} />
-                    </RectButton>
-                </View>
-            </View>
+            <MvTvItem
+                id={item.id}
+                type={'tv'}
+                title={item.name}
+                release_date={item.first_air_date}
+                vote_average={item.vote_average}
+                poster_path={item.poster_path}
+                color={color}
+                fontColor={fontColor}
+                colors={posterColors[index]}
+            />
         )
     }
 

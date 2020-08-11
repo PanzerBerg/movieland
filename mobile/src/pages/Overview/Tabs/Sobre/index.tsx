@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ScrollView, Text, View, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import { getDate, getTitleThreshold } from '../../../../utils'
 
@@ -8,7 +9,8 @@ import { MovieData, SerieData, Params } from '../../interfaces'
 import styles from './styles'
 
 const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?: MovieData, serieParams?: SerieData, params: Params, isTooWhite: boolean }) => {
-    const [] = useState(false);
+    const navigation = useNavigation()
+    
     let txtColor
     let buttonColor
     isTooWhite ? txtColor = '#000000' : txtColor = '#fff'
@@ -22,9 +24,13 @@ const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?:
         )
     }
 
+    function handleNavigationToSeasons() {
+        navigation.navigate('Seasons', {params, seasons: serieParams?.seasons, name: serieParams?.name})
+    }
+
     if (params.itemParam.type == 'movie' && movieParams != undefined) {
         return (
-            <SafeAreaView style={[styles.safe]}>
+            <SafeAreaView style={[styles.safe, {height: getTitleThreshold(movieParams.title.length)}]}>
                 <ScrollView style={styles.scroll}>
                     <View style={styles.block}>
                         <Text style={[styles.title, {color: txtColor}]}>Sinópse: </Text>
@@ -107,8 +113,12 @@ const Sobre = ({ movieParams, serieParams, params, isTooWhite }: { movieParams?:
 
                     <View style={styles.block}>
                         <Text style={[styles.title, {color: txtColor}]}>Temporadas:</Text>
-                        <TouchableOpacity activeOpacity={0.7} style={[styles.seasons, {backgroundColor: buttonColor}]}> 
-                            <Text style={[styles.text, {color: txtColor}]}>Ver todas as {serieParams.seasons.length} temporadas</Text>
+                        <TouchableOpacity 
+                            activeOpacity={0.7} 
+                            style={[styles.seasons, {backgroundColor: buttonColor}]}
+                            onPress={handleNavigationToSeasons}
+                        > 
+                            <Text style={[styles.text, {color: txtColor}]}>{'   '}Ver todas as {serieParams.seasons.length} temporadas</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

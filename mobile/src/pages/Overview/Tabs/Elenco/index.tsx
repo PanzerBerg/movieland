@@ -6,6 +6,7 @@ import { Cast, Params, Crew } from '../../interfaces'
 import { api, Movies, Series } from '../../../../services/api'
 
 import styles from './styles'
+import CastCard from '../../../../components/CastCard'
 
 const Elenco = ({ params, isTooWhite }: { params: Params, isTooWhite: boolean }) => {
     const [cast, setCast] = useState<Cast[]>();
@@ -36,85 +37,51 @@ const Elenco = ({ params, isTooWhite }: { params: Params, isTooWhite: boolean })
     }, [])
 
     function renderItem({ item, index }: { item: Cast, index: number }) {
-        if (index == 0 && params.itemParam.type == 'movie') {
-            let profilePath = ''
-            let directorProfile = ''
+        let profilePath = ''
 
-            if(item.profile_path == null) {
-                profilePath = 'https://m.media-amazon.com/images/G/01/IMDbPro/images/default_name._V142442227_UY289_CR46,0,196,289_.png'
-            } else {
-                profilePath = `https://image.tmdb.org/t/p/w200/${item.profile_path}`
-            }
+        if(item.profile_path == null) {
+            profilePath = 'https://m.media-amazon.com/images/G/01/IMDbPro/images/default_name._V142442227_UY289_CR46,0,196,289_.png'
+        } else {
+            profilePath = `https://image.tmdb.org/t/p/w200/${item.profile_path}`
+        }
+
+        if (index == 0 && params.itemParam.type == 'movie') {
+            let directorProfile = ''
 
             if(director?.profile_path == null){
                 directorProfile = 'https://m.media-amazon.com/images/G/01/IMDbPro/images/default_name._V142442227_UY289_CR46,0,196,289_.png'
             } else {
                 directorProfile = `https://image.tmdb.org/t/p/w200/${director?.profile_path}`
             }
-            return (
-                <View>
-                    <Text style={[styles.rowTitle, { color: cardColor }]}>Diretor</Text>
-                    <TouchableOpacity style={[styles.card, { backgroundColor: cardColor }]} activeOpacity={0.7}>
-                        <View>
-                            <View style={styles.textBlock}>
-                                <Text style={[styles.title, { color: textColor }]}>Nome: {' '}</Text>
-                                <Text style={[styles.text, { color: textColor }]}>{director?.name}</Text>
-                            </View>
-
-                        </View>
-                        <Image
-                            source={{ uri: directorProfile }}
-                            style={styles.profileImg}
-                        />
-                    </TouchableOpacity>
-                    <Text style={[styles.rowTitle, { color: cardColor }]}>Atores</Text>
-
-                    <TouchableOpacity style={[styles.card, { backgroundColor: cardColor }]} activeOpacity={0.7}>
-                        <View>
-                            <View style={styles.textBlock}>
-                                <Text style={[styles.title, { color: textColor }]}>Nome: {' '}</Text>
-                                <Text style={[styles.text, { color: textColor }]}>{item.name}</Text>
-                            </View>
-
-                            <View style={styles.textBlock}>
-                                <Text style={[styles.title, { color: textColor }]}>Personagem: {' '}</Text>
-                                <Text style={[styles.text, { color: textColor }]}>{item.character}</Text>
-                            </View>
-                        </View>
-                        <Image
-                            source={{ uri: profilePath }}
-                            style={styles.profileImg}
-                        />
-                    </TouchableOpacity>
-                </View>
-            )
-        } else {
-            let profilePath = ''
-
-            if(item.profile_path == null) {
-                profilePath = 'https://m.media-amazon.com/images/G/01/IMDbPro/images/default_name._V142442227_UY289_CR46,0,196,289_.png'
-            } else {
-                profilePath = `https://image.tmdb.org/t/p/w200/${item.profile_path}`
-            }
-
-            return (
-                <TouchableOpacity style={[styles.card, { backgroundColor: cardColor }]} activeOpacity={0.7}>
+            if(director?.name != undefined){
+                return (
                     <View>
-                        <View style={styles.textBlock}>
-                            <Text style={[styles.title, { color: textColor }]}>Nome: {' '}</Text>
-                            <Text style={[styles.text, { color: textColor }]}>{item.name}</Text>
-                        </View>
-    
-                        <View style={styles.textBlock}>
-                            <Text style={[styles.title, { color: textColor }]}>Personagem: {' '}</Text>
-                            <Text style={[styles.text, { color: textColor }]}>{item.character}</Text>
-                        </View>
+                        <Text style={[styles.rowTitle, { color: cardColor }]}>Diretor</Text>
+                        <CastCard name={director.name} profileImg={directorProfile} cardColor={cardColor} textColor={textColor} isActor={false} />
+                        <Text style={[styles.rowTitle, { color: cardColor }]}>Atores</Text>
+
+                        <CastCard 
+                            name={item.name} 
+                            character={item.character} 
+                            profileImg={profilePath} 
+                            cardColor={cardColor} 
+                            textColor={textColor} 
+                            isActor={true} 
+                        />
+
                     </View>
-                    <Image
-                        source={{ uri: profilePath }}
-                        style={styles.profileImg}
-                    />
-                </TouchableOpacity>
+                )
+            }
+        } else {
+            return (
+                <CastCard 
+                    name={item.name}
+                    character={item.character} 
+                    profileImg={profilePath} 
+                    cardColor={cardColor} 
+                    textColor={textColor} 
+                    isActor={true}
+                />            
             )
         }
     }
@@ -124,6 +91,7 @@ const Elenco = ({ params, isTooWhite }: { params: Params, isTooWhite: boolean })
             <FlatList
                 style={{ flex: 1 }}
                 data={cast}
+                //@ts-ignore
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
             />

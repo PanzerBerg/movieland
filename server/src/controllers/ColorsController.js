@@ -7,7 +7,12 @@ class ColorsController {
         let colors = new Array()
 
         for (let index = 0; index < body.length; index++) {
-            const imgUrl = `https://image.tmdb.org/t/p/original${body[index]}`
+            let imgUrl
+            if(body[index] == null) {
+                imgUrl = 'https://rufforosa.com.br/wp-content/uploads/2016/02/placeholder-9.jpg'
+            } else {
+                imgUrl = `https://image.tmdb.org/t/p/original${body[index]}`
+            }
             const url = body[index]
 
             let palette = await getPaletteFromURL(imgUrl)

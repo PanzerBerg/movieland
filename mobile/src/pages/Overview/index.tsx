@@ -19,7 +19,6 @@ const Overview = () => {
     const params = route.params as Params
     const textColor = isTooWhite(params.colors.palette[1]) ? '#000000' : '#ffffff'
 
-
     useEffect(() => {
         if (params.itemParam.type == 'movie') {
             api.get(Movies.getById('pt-BR', params.itemParam.id)).then(response => {

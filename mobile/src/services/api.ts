@@ -70,4 +70,9 @@ export class Series {
         const url = `tv/${serieId}/credits${key}`
         return url
     }
+
+    static getSeason(language: string, serieId: number, seasonNumber: number) {
+        const url = `tv/${serieId}/season/${seasonNumber}${key}&language=${language}`
+        return url
+    }
 }
