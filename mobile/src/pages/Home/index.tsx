@@ -1,10 +1,10 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons'
 
-import MoviesPage from '../Movies'
-import Overview from '../Overview'
-import SeriesPage from '../Series'
+import MovieRoutes from '../MovieRoutes'
+import SeriesRoutes from '../SeriesRoutes'
 
 import icoMoonConfig from '../../assets/Icons/selection.json'
 
@@ -12,6 +12,7 @@ const Home = () => {
     const Icon = createIconSetFromIcoMoon(icoMoonConfig, 'icomoon', require('../../assets/Icons/fonts/icomoon.ttf'))
     
     const Tab = createBottomTabNavigator()
+    const Stack = createStackNavigator()
 
     return (
         <Tab.Navigator
@@ -33,11 +34,11 @@ const Home = () => {
                     let iconName = ''
                     size = focused ? 35 : 27
 
-                    if(route.name === 'MoviesPage') {
+                    if(route.name === 'MovieRoutes') {
                         iconName = focused
                             ? 'film' : 'film-outline'
                     } 
-                    else if (route.name === 'SeriesPage') {
+                    else if (route.name === 'SeriesRoutes') {
                         iconName = focused
                             ? 'star' : 'star-outline'
                     }
@@ -46,8 +47,9 @@ const Home = () => {
                 }
             })}
         >
-            <Tab.Screen name="MoviesPage" component={MoviesPage} />
-            <Tab.Screen name='SeriesPage' component={SeriesPage} />
+            
+            <Tab.Screen name="MovieRoutes" component={MovieRoutes} />
+            <Tab.Screen name='SeriesRoutes' component={SeriesRoutes} />
         </Tab.Navigator>
     )
 }

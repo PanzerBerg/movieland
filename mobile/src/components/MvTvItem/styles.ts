@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 140,
         position: 'absolute',
-        left: Dimensions.get('window').width / 2.3,
+        left: '60%',
         borderRadius: 10
     },
     imagePosition: {
@@ -14,14 +14,14 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     card: {
-        width: 290,
+        width: Dimensions.get('screen').width / 1.1,
         marginTop: 50,
         borderRadius: 10,
         minHeight: 150,
         borderWidth: 1
     },
     title: {
-        width: 150,
+        maxWidth: '60%',
         marginTop: 10,
         marginLeft: 10,
         fontSize: 18,
@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 14,
         marginLeft: 20,
-        marginTop: 10,
+        marginTop: 15,
         fontFamily: 'Roboto_400Regular'
     },
     reviewBlock: {
-        marginTop: 20,
+        marginTop: 15,
         marginLeft: 10,
         flexDirection: "row",
         marginBottom: 10
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     buttonGroup: {
         flexDirection: 'row',
         position: 'absolute',
-        left: Dimensions.get('window').width / 2.7,
+        left: '53%',
         top: 150
     },
     episodes: {

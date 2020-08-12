@@ -3,13 +3,15 @@ import Axios from 'axios'
 const movieOptions = {
     now_playing: 'now_playing',
     top_rated: 'top_rated',
-    upcoming: 'upcoming'
+    upcoming: 'upcoming',
+    popular: 'popular',
 }
 
 const seriesOptions = {
     top_rated: 'top_rated',
     popular: 'popular',
-    latest: 'latest'
+    on_the_air: 'on_the_air',
+    airing_today: 'airing_today'
 }
 
 const url = 'https://api.themoviedb.org/3/'
@@ -34,16 +36,21 @@ export class Movies{
         return url
     }
 
+    static popularMovies(language:string, page:number){
+        const url = `movie/${movieOptions.popular}${key}&language=${language}&region=BR&page=${page}`
+        return url
+    }
+
     static nowPlayingMovies(language:string, page:number){
-        const url = `movie/${movieOptions.now_playing}${key}&language=${language}&page=${page}`
+        const url = `movie/${movieOptions.now_playing}${key}&language=${language}&region=BR&page=${page}`
         return url
     }
 
     static topRatedMovies(language:string, page:number) {
-        const url = `movie/${movieOptions.top_rated}${key}&language=${language}&region=br&page=${page}`
+        const url = `movie/${movieOptions.top_rated}${key}&language=${language}&region=BR&page=${page}`
         return url
     }
-
+    
     static getById(language:string, id:number) {
         const url = `movie/${id}${key}&language=${language}`
         return url
@@ -58,6 +65,21 @@ export class Movies{
 export class Series {
     static topRatedSeries(language:string, page:number) {
         const url = `tv/${seriesOptions.top_rated}${key}&language=${language}&page=${page}`
+        return url
+    }
+    
+    static popularSeries(language:string, page:number) {
+        const url = `tv/${seriesOptions.popular}${key}&language=${language}&page=${page}`
+        return url
+    }
+    
+    static onAirSeries(language:string, page:number) {
+        const url = `tv/${seriesOptions.on_the_air}${key}&language=${language}&page=${page}`
+        return url
+    }
+    
+    static airTodaySeries(language:string, page:number) {
+        const url = `tv/${seriesOptions.airing_today}${key}&language=${language}&page=${page}`
         return url
     }
 

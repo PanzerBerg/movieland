@@ -6,7 +6,7 @@ import MvTvItem from '../../components/MvTvItem';
 import { serverApi } from '../../services/api';
 
 import { SeasonsParams, SeasonsProps } from './interfaces';
-import { Colors } from '../Movies/interfaces';
+import { Colors } from '../MoviesPages/TopMovies/interfaces';
 import { isTooWhite } from '../../utils';
 
 import styles from './styles'

@@ -71,7 +71,7 @@ const Episodes = () => {
             <Text style={styles.header}>Episódios</Text>
 
             {isBusy ? (
-                <View style={{marginTop: '90%'}}>
+                <View style={{marginTop: Dimensions.get('screen').height / 2}}>
                     <ActivityIndicator size={'large'} />
                 </View>
             ) : (

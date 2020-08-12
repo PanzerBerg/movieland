@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     title: {
         maxWidth: '45%',
-        marginLeft: '50%',
+        marginLeft: '55%',
         marginTop: 10,
         fontFamily: 'Ubuntu_700Bold',
         fontSize: 18

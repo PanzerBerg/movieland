@@ -25,4 +25,3 @@ export interface Colors {
     palette: string[],
     url: string
 }
-

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, SafeAreaView, Dimensions, ActivityIndicator, FlatList } from 'react-native'
 
-import { api, Series, serverApi } from '../../services/api'
-import MvTvItem from '../../components/MvTvItem'
+import { api, Series, serverApi } from '../../../services/api'
+import MvTvItem from '../../../components/MvTvItem'
 
-import { Colors, Data, Results } from './interfaces'
-import { isTooWhite } from '../../utils'
-import styles from './styles'
+import { Colors, Data, Results } from '../interfaces'
+import { isTooWhite } from '../../../utils'
+import styles from '../styles'
+import ScrollFilter from '../../../components/ScrollFilter'
 
-const SeriesPage = () => {
+const PopularSeries = () => {
     const [seriePage, setSeriePage] = useState<Data[]>()
     const [postersList, setPostersList] = useState<string[]>()
     const [posterColors, setPosterColors] = useState<Colors[]>()
@@ -17,6 +18,11 @@ const SeriesPage = () => {
     const [page, setPage] = useState(0);
     const [appPage, setAppPage] = useState(0)
 
+    const titles = {
+        title1: { buttonTitle: 'Top series', routeName: 'TopSeries' }, 
+        title2: { buttonTitle: 'Atualmente no ar', routeName: 'OnAirSeries' }, 
+        title3: { buttonTitle: 'Novos episódios', routeName: 'AirTodaySeries'}
+    }
 
     useEffect(() => {
         loadItems()
@@ -61,7 +67,7 @@ const SeriesPage = () => {
             }
         } else {
             //console.log(appPage, 'new page')
-            api.get(Series.topRatedSeries('pt-BR', (page + 1))).then(response => {
+            api.get(Series.popularSeries('pt-BR', (page + 1))).then(response => {
                 const result: Results = response.data
                 setSeriePage(result.results);
 
@@ -127,7 +133,9 @@ const SeriesPage = () => {
 
     return (
         <SafeAreaView style={styles.main}>
-            <Text style={styles.header}>Top TV Series</Text>
+            <Text style={styles.header}>Séries populares</Text>
+
+            <ScrollFilter titles={titles} />
 
             <FlatList
                 style={{ marginTop: 20, width: Dimensions.get('screen').width }}
@@ -144,4 +152,4 @@ const SeriesPage = () => {
     )
 }
 
-export default SeriesPage;
+export default PopularSeries;
